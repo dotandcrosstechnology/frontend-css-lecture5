@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid & Positioning | Week 2 - Lecture 5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .instructor-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .subsection {
+            margin-bottom: 40px;
+        }
+
+        .subsection h3 {
+            font-size: 1.8rem;
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+
+        .code-container {
+            background: #282c34;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .code-header {
+            background: #21252b;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            color: #abb2bf;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        pre {
+            padding: 20px;
+            color: #abb2bf;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .demo-container {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f8f9fa;
+        }
+
+        .demo-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #495057;
+        }
+
+        /* Grid Examples */
+        .grid-basic {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .grid-item {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .grid-areas {
+            display: grid;
+            grid-template-areas: 
+                "header header header"
+                "sidebar main main"
+                "footer footer footer";
+            grid-template-rows: 80px 200px 60px;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .area-header { grid-area: header; background: #ff6b6b; }
+        .area-sidebar { grid-area: sidebar; background: #4ecdc4; }
+        .area-main { grid-area: main; background: #45b7d1; }
+        .area-footer { grid-area: footer; background: #96ceb4; }
+
+        .area-item {
+            padding: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        /* Position Examples */
+        .position-demo {
+            position: relative;
+            height: 300px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            margin: 20px 0;
+        }
+
+        .position-item {
+            width: 100px;
+            height: 60px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+
+        .static { background: #6c757d; }
+        .relative { background: #28a745; position: relative; top: 20px; left: 20px; }
+        .absolute { background: #dc3545; position: absolute; top: 50px; right: 20px; }
+        .fixed { background: #ffc107; color: #333; position: fixed; top: 10px; right: 10px; z-index: 1000; }
+
+        /* Z-index demo */
+        .z-index-demo {
+            position: relative;
+            height: 200px;
+        }
+
+        .z-item {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .z1 { background: #ff6b6b; top: 20px; left: 20px; z-index: 1; }
+        .z2 { background: #4ecdc4; top: 40px; left: 40px; z-index: 2; }
+        .z3 { background: #45b7d1; top: 60px; left: 60px; z-index: 3; }
+
+        /* Class Practice */
+        .complex-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr 150px;
+            grid-template-rows: 80px 1fr 60px;
+            grid-template-areas:
+                "nav header ads"
+                "nav content ads"
+                "nav footer ads";
+            height: 400px;
+            gap: 15px;
+            position: relative;
+        }
+
+        .nav { grid-area: nav; background: #2c3e50; }
+        .header { grid-area: header; background: #3498db; }
+        .ads { grid-area: ads; background: #e74c3c; }
+        .content { grid-area: content; background: #ecf0f1; color: #333; position: relative; }
+        .footer { grid-area: footer; background: #95a5a6; }
+
+        .overlay-card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        /* Magazine Layout */
+        .magazine-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 200px 150px 100px;
+            gap: 20px;
+            height: 470px;
+            position: relative;
+        }
+
+        .hero-article {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect fill="%23667eea" width="400" height="300"/><text x="200" y="150" text-anchor="middle" fill="white" font-size="20">Hero Article</text></svg>');
+            background-size: cover;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            border-radius: 10px;
+        }
+
+        .sidebar-article {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .floating-quote {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(118, 75, 162, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-style: italic;
+            z-index: 5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 20px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc8 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .responsive-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+            .grid-basic { grid-template-columns: 1fr; }
+            .grid-areas { grid-template-areas: "header" "main" "sidebar" "footer"; }
+            .complex-layout { grid-template-columns: 1fr; grid-template-areas: "header" "nav" "content" "ads" "footer"; }
+            .magazine-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CSS Grid & Positioning</h1>
+            <p>Master advanced layout techniques with practical examples</p>
+        </header>
+
+        <div class="instructor-info">
+            <h3>📚 Lecture Details</h3>
+            <p><strong>Instructor:</strong> Anas Yousaf | <strong>Week:</strong> 2 | <strong>Lecture:</strong> 5 | <strong>Institution:</strong> Dot and Cross Technology</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('basics')">Grid Basics</button>
+            <button class="tab" onclick="showTab('areas')">Grid Areas</button>
+            <button class="tab" onclick="showTab('positioning')">Positioning</button>
+            <button class="tab" onclick="showTab('practice')">Class Practice</button>
+            <button class="tab" onclick="showTab('homework')">Home Task</button>
+        </div>
+
+        <!-- Grid Basics Tab -->
+        <div id="basics" class="tab-content active">
+            <div class="section">
+                <h2 class="section-title">🎯 CSS Grid Basics</h2>
+                
+                <div class="subsection">
+                    <h3>What is CSS Grid?</h3>
+                    <p>CSS Grid Layout is a two-dimensional layout system for the web. It lets you lay content out in rows and columns, and has many features that make building complex layouts straightforward.</p>
+                    
+                    <div class="highlight">
+                        <strong>Key Benefits:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Two-dimensional layout (rows and columns)</li>
+                            <li>Precise control over positioning</li>
+                            <li>Responsive design made easy</li>
+                            <li>Less dependency on floats and positioning</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Basic Grid Properties</h3>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Basic Grid Setup</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns */
+  grid-template-rows: 100px 200px;    /* 2 rows with fixed heights */
+  gap: 20px;                          /* Space between grid items */
+}
+
+/* Alternative column definitions */
+.grid-container {
+  grid-template-columns: repeat(3, 1fr);     /* Repeat 3 times */
+  grid-template-columns: 200px 1fr 100px;    /* Mixed units */
+  grid-template-columns: minmax(100px, 1fr) 2fr; /* Flexible sizing */
+}</pre>
+                    </div>
+
+                    <div class="demo-container">
+                        <div class="demo-title">Live Demo: Basic Grid</div>
+                        <div class="grid-basic">
+                            <div class="grid-item">Item 1</div>
+                            <div class="grid-item">Item 2</div>
+                            <div class="grid-item">Item 3</div>
+                            <div class="grid-item">Item 4</div>
+                            <div class="grid-item">Item 5</div>
+                            <div class="grid-item">Item 6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Grid Item Placement</h3>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Grid Item Positioning</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>.grid-item {
+  grid-column: 1 / 3;        /* Span from column 1 to 3 */
+  grid-row: 2 / 4;           /* Span from row 2 to 4 */
+}
+
+/* Shorthand */
+.grid-item {
+  grid-area: 2 / 1 / 4 / 3;  /* row-start / col-start / row-end / col-end */
+}
+
+/* Named lines */
+.grid-container {
+  grid-template-columns: [start] 1fr [middle] 1fr [end];
+}
+
+.grid-item {
+  grid-column: start / middle;
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid Template Areas Tab -->
+        <div id="areas" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">🗺️ Grid Template Areas</h2>
+                
+                <div class="subsection">
+                    <h3>What are Grid Template Areas?</h3>
+                    <p>Grid template areas provide a visual way to define grid layouts using named areas. This makes your CSS more readable and maintainable.</p>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Grid Template Areas</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>.layout {
+  display: grid;
+  grid-template-areas: 
+    "header header header"
+    "sidebar main main"
+    "footer footer footer";
+  grid-template-rows: 80px 1fr 60px;
+  gap: 10px;
+  height: 100vh;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }</pre>
+                    </div>
+
+                    <div class="demo-container">
+                        <div class="demo-title">Live Demo: Magazine Layout</div>
+                        <div class="magazine-layout">
+                            <article class="hero-article">
+                                <h2>Breaking: Tech Innovation Trends 2024</h2>
+                                <p>Latest developments in artificial intelligence and web technologies are reshaping how we build modern applications...</p>
+                            </article>
+                            <aside class="sidebar-article">
+                                <h3>Quick Read</h3>
+                                <p>Essential tech news in 60 seconds. Stay updated with the latest industry developments.</p>
+                            </aside>
+                            <aside class="sidebar-article">
+                                <h3>Tech Tips</h3>
+                                <p>Daily productivity hacks for developers and designers working in the digital space.</p>
+                            </aside>
+                            <div class="sidebar-article">Advertisement Space</div>
+                            <div class="floating-quote">
+                                "Design is not just what it looks like – design is how it works."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Assignment Requirements:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Grid Structure:</strong> Use CSS Grid for the main layout with at least 3 columns and 3 rows</li>
+                            <li><strong>Template Areas:</strong> Implement named grid areas for better organization</li>
+                            <li><strong>Overlapping Elements:</strong> Add at least 2 positioned elements that overlap grid items</li>
+                            <li><strong>Z-index Management:</strong> Properly layer elements with appropriate z-index values</li>
+                            <li><strong>Responsive Design:</strong> Make the layout work on mobile devices</li>
+                            <li><strong>Visual Polish:</strong> Add hover effects, shadows, and smooth transitions</li>
+                        </ol>
+                    </div>
+
+                    <div class="responsive-note">
+                        <strong>💡 Pro Tip:</strong> Start with a mobile-first approach when building your magazine layout. Use CSS Grid's auto-placement for smaller screens and more complex grid areas for larger viewports.
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Bonus Challenges</h3>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Advanced Techniques</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>/* Bonus 1: Sticky positioned sidebar */
+.sticky-sidebar {
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+/* Bonus 2: CSS Grid with subgrid (where supported) */
+.subgrid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.subgrid-item {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 3;
+}
+
+/* Bonus 3: Advanced grid functions */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Bonus 4: CSS Grid with CSS Custom Properties */
+:root {
+  --grid-gap: 20px;
+  --grid-columns: 3;
+}
+
+.dynamic-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gap);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --grid-columns: 1;
+    --grid-gap: 15px;
+  }
+}</pre>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Submission Guidelines:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Create a complete HTML file with embedded CSS</li>
+                            <li>Include comments explaining your grid structure</li>
+                            <li>Test your layout on different screen sizes</li>
+                            <li>Use semantic HTML elements (article, aside, section, etc.)</li>
+                            <li>Validate your code using W3C validators</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Resources Section -->
+            <div class="section">
+                <h2 class="section-title">📚 Additional Resources</h2>
+                
+                <div class="subsection">
+                    <h3>Useful Tools & References</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #28a745;">
+                            <h4>CSS Grid Generator</h4>
+                            <p>Visual tools to generate CSS Grid code</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>CSS Grid Generator by Sarah Drasner</li>
+                                <li>Grid by Example</li>
+                                <li>Firefox CSS Grid Inspector</li>
+                            </ul>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #007bff;">
+                            <h4>Browser Developer Tools</h4>
+                            <p>Built-in tools for debugging layouts</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Chrome DevTools Grid Inspector</li>
+                                <li>Firefox Grid Inspector</li>
+                                <li>Safari Web Inspector</li>
+                            </ul>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #ffc107;">
+                            <h4>Learning Resources</h4>
+                            <p>Comprehensive guides and tutorials</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>CSS-Tricks Complete Guide to Grid</li>
+                                <li>MDN CSS Grid Layout</li>
+                                <li>Grid Garden (Interactive Game)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Common Pitfalls to Avoid</h3>
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Overusing absolute positioning:</strong> Try to solve layout problems with Grid first</li>
+                            <li><strong>Forgetting about accessibility:</strong> Ensure proper heading hierarchy and focus management</li>
+                            <li><strong>Not testing responsiveness:</strong> Always test your layouts on different screen sizes</li>
+                            <li><strong>Mixing layout methods unnecessarily:</strong> Understand when to use Grid vs Flexbox vs positioning</li>
+                            <li><strong>Complex grid areas on mobile:</strong> Simplify grid structures for smaller screens</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function copyCode(button) {
+            const codeContainer = button.closest('.code-container');
+            const codeText = codeContainer.querySelector('pre').textContent;
+            
+            navigator.clipboard.writeText(codeText).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = codeText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Add some interactivity to the demos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click interaction to grid items
+            const gridItems = document.querySelectorAll('.grid-item');
+            gridItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    this.style.transform = this.style.transform === 'scale(1.1)' ? 'scale(1)' : 'scale(1.1)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+            });
+
+            // Add hover effect to position items
+            const positionItems = document.querySelectorAll('.position-item');
+            positionItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+                </div>
+
+                <div class="subsection">
+                    <h3>Advanced Grid Areas</h3>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Complex Grid Areas</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>/* Responsive Grid Areas */
+.responsive-layout {
+  display: grid;
+  gap: 20px;
+  grid-template-areas: 
+    "header header header header"
+    "nav main main aside"
+    "nav main main aside"
+    "footer footer footer footer";
+}
+
+@media (max-width: 768px) {
+  .responsive-layout {
+    grid-template-areas: 
+      "header"
+      "nav"
+      "main"
+      "aside"
+      "footer";
+  }
+}
+
+/* Empty cells with dots */
+.grid-with-gaps {
+  grid-template-areas: 
+    "header header . sidebar"
+    "main main . sidebar"
+    "footer footer footer footer";
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Positioning Tab -->
+        <div id="positioning" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">📍 CSS Positioning</h2>
+                
+                <div class="subsection">
+                    <h3>Position Property Values</h3>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Position Properties</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>/* Static (default) - follows normal document flow */
+.static {
+  position: static;
+}
+
+/* Relative - positioned relative to its normal position */
+.relative {
+  position: relative;
+  top: 20px;    /* Move 20px down from original position */
+  left: 30px;   /* Move 30px right from original position */
+}
+
+/* Absolute - positioned relative to nearest positioned ancestor */
+.absolute {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* Fixed - positioned relative to viewport */
+.fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Sticky - switches between relative and fixed */
+.sticky {
+  position: sticky;
+  top: 0;
+}</pre>
+                    </div>
+
+                    <div class="demo-container">
+                        <div class="demo-title">Live Demo: Position Types</div>
+                        <div class="position-demo">
+                            <div class="position-item static">Static</div>
+                            <div class="position-item relative">Relative</div>
+                            <div class="position-item absolute">Absolute</div>
+                        </div>
+                        <div class="position-item fixed">Fixed</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Z-Index and Layering</h3>
+                    <p>The z-index property controls the stacking order of positioned elements. Higher values appear on top.</p>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Z-Index Examples</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>/* Z-index only works on positioned elements */
+.layer1 {
+  position: relative;
+  z-index: 1;
+  background: red;
+}
+
+.layer2 {
+  position: relative;
+  z-index: 2;    /* This will be on top of layer1 */
+  background: blue;
+}
+
+.layer3 {
+  position: relative;
+  z-index: 3;    /* This will be on top of both */
+  background: green;
+}
+
+/* Negative z-index pushes element behind others */
+.behind {
+  position: relative;
+  z-index: -1;
+}</pre>
+                    </div>
+
+                    <div class="demo-container">
+                        <div class="demo-title">Live Demo: Z-Index Layering</div>
+                        <div class="z-index-demo">
+                            <div class="z-item z1">Z: 1</div>
+                            <div class="z-item z2">Z: 2</div>
+                            <div class="z-item z3">Z: 3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Class Practice Tab -->
+        <div id="practice" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">💻 Class Practice</h2>
+                
+                <div class="subsection">
+                    <h3>Complex Layout Challenge</h3>
+                    <p>Create a comprehensive layout using both CSS Grid and positioned elements.</p>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">HTML - Complex Layout Structure</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>&lt;div class="complex-layout"&gt;
+  &lt;nav class="nav"&gt;Navigation&lt;/nav&gt;
+  &lt;header class="header"&gt;Header&lt;/header&gt;
+  &lt;aside class="ads"&gt;Ads&lt;/aside&gt;
+  &lt;main class="content"&gt;
+    Main Content Area
+    &lt;div class="overlay-card"&gt;
+      &lt;h4&gt;Floating Card&lt;/h4&gt;
+      &lt;p&gt;This card is positioned absolutely within the content area.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+  &lt;footer class="footer"&gt;Footer&lt;/footer&gt;
+&lt;/div&gt;</pre>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Complex Layout Styles</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>.complex-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr 150px;
+  grid-template-rows: 80px 1fr 60px;
+  grid-template-areas:
+    "nav header ads"
+    "nav content ads"
+    "nav footer ads";
+  height: 500px;
+  gap: 15px;
+}
+
+.nav { 
+  grid-area: nav; 
+  background: #2c3e50; 
+  color: white;
+  padding: 20px;
+}
+
+.header { 
+  grid-area: header; 
+  background: #3498db; 
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.ads { 
+  grid-area: ads; 
+  background: #e74c3c; 
+  color: white;
+  padding: 20px;
+}
+
+.content { 
+  grid-area: content; 
+  background: #ecf0f1; 
+  position: relative;
+  padding: 20px;
+}
+
+.footer { 
+  grid-area: footer; 
+  background: #95a5a6; 
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.overlay-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  z-index: 10;
+  max-width: 300px;
+}</pre>
+                    </div>
+
+                    <div class="demo-container">
+                        <div class="demo-title">Live Demo: Complex Layout</div>
+                        <div class="complex-layout">
+                            <nav class="nav area-item">Navigation</nav>
+                            <header class="header area-item">Header Section</header>
+                            <aside class="ads area-item">Advertisements</aside>
+                            <main class="content area-item">
+                                Main Content Area
+                                <div class="overlay-card">
+                                    <h4>Floating Card</h4>
+                                    <p>This card uses absolute positioning within the grid area.</p>
+                                </div>
+                            </main>
+                            <footer class="footer area-item">Footer</footer>
+                        </div>
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Practice Steps:</strong>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>Start with basic grid structure</li>
+                            <li>Define grid template areas</li>
+                            <li>Add positioned elements for overlays</li>
+                            <li>Implement responsive behavior</li>
+                            <li>Test z-index layering</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Task Tab -->
+        <div id="homework" class="tab-content">
+            <div class="section">
+                <h2 class="section-title">📝 Home Task</h2>
+                
+                <div class="subsection">
+                    <h3>Magazine-Style Layout Assignment</h3>
+                    <p>Create a modern magazine-style layout with overlapping elements using CSS Grid and positioning techniques.</p>
+                    
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">HTML - Magazine Layout Structure</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>&lt;div class="magazine-container"&gt;
+  &lt;article class="hero-article"&gt;
+    &lt;h2&gt;Breaking: Tech Innovation Trends 2024&lt;/h2&gt;
+    &lt;p&gt;Latest developments in artificial intelligence and web technologies...&lt;/p&gt;
+  &lt;/article&gt;
+  
+  &lt;aside class="sidebar-article"&gt;
+    &lt;h3&gt;Quick Read&lt;/h3&gt;
+    &lt;p&gt;Essential news in 60 seconds...&lt;/p&gt;
+  &lt;/aside&gt;
+  
+  &lt;aside class="sidebar-article"&gt;
+    &lt;h3&gt;Tech Tips&lt;/h3&gt;
+    &lt;p&gt;Daily productivity hacks...&lt;/p&gt;
+  &lt;/aside&gt;
+  
+  &lt;div class="ad-space"&gt;Advertisement&lt;/div&gt;
+  
+  &lt;div class="floating-quote"&gt;
+    "Design is not just what it looks like – design is how it works."
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-title">CSS - Magazine Layout Styles</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <pre>.magazine-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 250px 180px 120px;
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+.hero-article {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  background: linear-gradient(
+    rgba(0,0,0,0.6
